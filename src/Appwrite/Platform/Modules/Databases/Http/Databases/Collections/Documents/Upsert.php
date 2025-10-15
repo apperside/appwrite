@@ -317,12 +317,13 @@ class Upsert extends Action
         $upserted = [];
         try {
             $dbForProject->withPreserveDates(function () use (&$upserted, $dbForProject, $database, $collection, $newDocument) {
-                return $dbForProject->upsertDocuments(
+                return $dbForProject->createOrUpdateDocuments(
                     'database_' . $database->getSequence() . '_collection_' . $collection->getSequence(),
                     [$newDocument],
-                    onNext: function (Document $document) use (&$upserted) {
+                    1,
+                    function (Document $document) use (&$upserted) {
                         $upserted[] = $document;
-                    },
+                    }
                 );
             });
         } catch (ConflictException) {

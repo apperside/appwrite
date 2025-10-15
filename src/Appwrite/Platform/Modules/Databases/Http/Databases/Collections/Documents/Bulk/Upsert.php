@@ -161,14 +161,15 @@ class Upsert extends Action
 
         try {
             $modified = $dbForProject->withPreserveDates(function () use ($dbForProject, $database, $collection, $documents, $plan, &$upserted) {
-                return $dbForProject->upsertDocuments(
+                return $dbForProject->createOrUpdateDocuments(
                     'database_' . $database->getSequence() . '_collection_' . $collection->getSequence(),
                     $documents,
-                    onNext: function (Document $document) use ($plan, &$upserted) {
+                    $plan['databasesBatchSize'] ?? APP_LIMIT_DATABASE_BATCH,
+                    function (Document $document) use ($plan, &$upserted) {
                         if (\count($upserted) < ($plan['databasesBatchSize'] ?? APP_LIMIT_DATABASE_BATCH)) {
                             $upserted[] = $document;
                         }
-                    },
+                    }
                 );
             });
         } catch (ConflictException) {

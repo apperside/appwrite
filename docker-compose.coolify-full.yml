@@ -4,6 +4,7 @@ services:
     container_name: appwrite
     ports:
       - "9501:80"
+      - "9502:80"
     volumes:
       - 'appwrite-uploads:/storage/uploads:rw'
       - 'appwrite-imports:/storage/imports:rw'
@@ -136,7 +137,7 @@ services:
       - '_APP_FUNCTIONS_CREATION_ABUSE_LIMIT=${_APP_FUNCTIONS_CREATION_ABUSE_LIMIT}'
       - '_APP_CUSTOM_DOMAIN_DENY_LIST=${_APP_CUSTOM_DOMAIN_DENY_LIST}'
   appwrite-console:
-    image: 'appwrite/console:6.1.28'
+    image: 'docker.apperside.com/appwrite-custom:latest'
     container_name: appwrite-console
     environment:
       - SERVICE_URL_APPWRITE=/console

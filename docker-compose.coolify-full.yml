@@ -1,7 +1,9 @@
 services:
   appwrite:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     container_name: appwrite
+    ports:
+      - "80:80"
     volumes:
       - 'appwrite-uploads:/storage/uploads:rw'
       - 'appwrite-imports:/storage/imports:rw'
@@ -139,7 +141,7 @@ services:
     environment:
       - SERVICE_URL_APPWRITE=/console
   appwrite-realtime:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: realtime
     container_name: appwrite-realtime
     depends_on:
@@ -165,7 +167,7 @@ services:
       - '_APP_LOGGING_CONFIG=${_APP_LOGGING_CONFIG}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-audits:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-audits
     container_name: appwrite-worker-audits
     depends_on:
@@ -187,7 +189,7 @@ services:
       - '_APP_LOGGING_CONFIG=${_APP_LOGGING_CONFIG}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-webhooks:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-webhooks
     container_name: appwrite-worker-webhooks
     depends_on:
@@ -212,7 +214,7 @@ services:
       - '_APP_WEBHOOK_MAX_FAILED_ATTEMPTS=${_APP_WEBHOOK_MAX_FAILED_ATTEMPTS}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-deletes:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-deletes
     container_name: appwrite-worker-deletes
     depends_on:
@@ -269,7 +271,7 @@ services:
       - '_APP_MAINTENANCE_RETENTION_AUDIT=${_APP_MAINTENANCE_RETENTION_AUDIT:-1209600}'
       - '_APP_MAINTENANCE_RETENTION_AUDIT_CONSOLE=${_APP_MAINTENANCE_RETENTION_AUDIT_CONSOLE}'
   appwrite-worker-databases:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-databases
     container_name: appwrite-worker-databases
     depends_on:
@@ -293,7 +295,7 @@ services:
       - '_APP_QUEUE_NAME=${_APP_QUEUE_NAME}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-builds:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-builds
     container_name: appwrite-worker-builds
     depends_on:
@@ -359,7 +361,7 @@ services:
       - '_APP_BROWSER_HOST=${_APP_BROWSER_HOST}'
       - '_APP_CONSOLE_DOMAIN=${_APP_CONSOLE_DOMAIN}'
   appwrite-worker-certificates:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-certificates
     container_name: appwrite-worker-certificates
     depends_on:
@@ -392,7 +394,7 @@ services:
       - '_APP_LOGGING_CONFIG=${_APP_LOGGING_CONFIG}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-functions:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-functions
     container_name: appwrite-worker-functions
     depends_on:
@@ -428,7 +430,7 @@ services:
       - '_APP_LOGGING_PROVIDER=${_APP_LOGGING_PROVIDER}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-mails:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-mails
     container_name: appwrite-worker-mails
     depends_on:
@@ -459,7 +461,7 @@ services:
       - '_APP_OPTIONS_FORCE_HTTPS=${_APP_OPTIONS_FORCE_HTTPS:-disabled}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-messaging:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-messaging
     container_name: appwrite-worker-messaging
     volumes:
@@ -507,7 +509,7 @@ services:
       - '_APP_STORAGE_WASABI_BUCKET=${_APP_STORAGE_WASABI_BUCKET}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-worker-migrations:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-migrations
     container_name: appwrite-worker-migrations
     volumes:
@@ -539,7 +541,7 @@ services:
       - '_APP_MIGRATIONS_FIREBASE_CLIENT_SECRET=${_APP_MIGRATIONS_FIREBASE_CLIENT_SECRET}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-task-maintenance:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: maintenance
     container_name: appwrite-task-maintenance
     depends_on:
@@ -575,7 +577,7 @@ services:
       - '_APP_MAINTENANCE_START_TIME=${_APP_MAINTENANCE_START_TIME}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-task-stats-resources:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     container_name: appwrite-task-stats-resources
     entrypoint: stats-resources
     depends_on:
@@ -599,7 +601,7 @@ services:
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
       - '_APP_STATS_RESOURCES_INTERVAL=${_APP_STATS_RESOURCES_INTERVAL}'
   appwrite-worker-stats-resources:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-stats-resources
     container_name: appwrite-worker-stats-resources
     depends_on:
@@ -622,7 +624,7 @@ services:
       - '_APP_LOGGING_CONFIG=${_APP_LOGGING_CONFIG}'
       - '_APP_STATS_RESOURCES_INTERVAL=${_APP_STATS_RESOURCES_INTERVAL}'
   appwrite-worker-stats-usage:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: worker-stats-usage
     container_name: appwrite-worker-stats-usage
     depends_on:
@@ -646,7 +648,7 @@ services:
       - '_APP_USAGE_AGGREGATION_INTERVAL=${_APP_USAGE_AGGREGATION_INTERVAL:-30}'
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-task-scheduler-functions:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: schedule-functions
     container_name: appwrite-task-scheduler-functions
     depends_on:
@@ -667,7 +669,7 @@ services:
       - _APP_DB_PASS=$SERVICE_PASSWORD_MARIADB
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-task-scheduler-executions:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: schedule-executions
     container_name: appwrite-task-scheduler-executions
     depends_on:
@@ -688,7 +690,7 @@ services:
       - _APP_DB_PASS=$SERVICE_PASSWORD_MARIADB
       - '_APP_DATABASE_SHARED_TABLES=${_APP_DATABASE_SHARED_TABLES}'
   appwrite-task-scheduler-messages:
-    image: docker.apperside.com/appwrite-custom:latest
+    image: 'docker.apperside.com/appwrite-custom:latest'
     entrypoint: schedule-messages
     container_name: appwrite-task-scheduler-messages
     depends_on:

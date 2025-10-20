@@ -3,7 +3,7 @@ services:
     image: 'docker.apperside.com/appwrite-custom:latest'
     container_name: appwrite
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - 'appwrite-uploads:/storage/uploads:rw'
       - 'appwrite-imports:/storage/imports:rw'

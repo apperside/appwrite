@@ -1,0 +1,53 @@
+# MINIMAL Appwrite docker-compose for Coolify
+# This version reduces Coolify's processing overhead
+# Set all environment variables in Coolify UI
+
+version: '3'
+
+services:
+  appwrite:
+    image: appwrite/appwrite:1.6.0
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - appwrite-uploads:/storage/uploads:rw
+      - appwrite-cache:/storage/cache:rw
+      - appwrite-config:/storage/config:rw
+      - appwrite-certificates:/storage/certificates:rw
+      - appwrite-functions:/storage/functions:rw
+    depends_on:
+      - mariadb
+      - redis
+
+  mariadb:
+    image: mariadb:10.11
+    restart: unless-stopped
+    volumes:
+      - appwrite-mariadb:/var/lib/mysql:rw
+    environment:
+      MYSQL_ROOT_PASSWORD: ${_APP_DB_ROOT_PASS}
+      MYSQL_DATABASE: ${_APP_DB_SCHEMA}
+      MYSQL_USER: ${_APP_DB_USER}
+      MYSQL_PASSWORD: ${_APP_DB_PASS}
+      MARIADB_AUTO_UPGRADE: "1"
+    command: 'mysqld --innodb-flush-method=fsync'
+
+  redis:
+    image: redis:7.2.4-alpine
+    restart: unless-stopped
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - appwrite-redis:/data:rw
+
+volumes:
+  appwrite-mariadb:
+  appwrite-redis:
+  appwrite-cache:
+  appwrite-uploads:
+  appwrite-certificates:
+  appwrite-functions:
+  appwrite-config:
+
+
+

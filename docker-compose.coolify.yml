@@ -1,0 +1,101 @@
+# Minimal Appwrite Coolify deployment - builds from source
+# Keeps the file small enough for Coolify to process
+
+services:
+  appwrite:
+    image: appwrite-custom
+    build:
+      context: .
+      args:
+        DEBUG: "false"
+        TESTING: "false"
+        VERSION: "1.8.0"
+    ports:
+      - "80:80"
+    volumes:
+      - appwrite-uploads:/storage/uploads:rw
+      - appwrite-cache:/storage/cache:rw
+      - appwrite-config:/storage/config:rw
+      - appwrite-certificates:/storage/certificates:rw
+      - appwrite-functions:/storage/functions:rw
+    depends_on:
+      - mariadb
+      - redis
+    environment:
+      - _APP_ENV
+      - _APP_OPENSSL_KEY_V1
+      - _APP_DOMAIN
+      - _APP_REDIS_HOST
+      - _APP_REDIS_PORT
+      - _APP_DB_HOST
+      - _APP_DB_PORT
+      - _APP_DB_SCHEMA
+      - _APP_DB_USER
+      - _APP_DB_PASS
+      - _APP_EXECUTOR_SECRET
+
+  appwrite-realtime:
+    image: appwrite-custom
+    entrypoint: realtime
+    depends_on:
+      - mariadb
+      - redis
+    environment:
+      - _APP_ENV
+      - _APP_OPENSSL_KEY_V1
+      - _APP_REDIS_HOST
+      - _APP_REDIS_PORT
+      - _APP_DB_HOST
+      - _APP_DB_PORT
+      - _APP_DB_SCHEMA
+      - _APP_DB_USER
+      - _APP_DB_PASS
+
+  appwrite-worker-deletes:
+    image: appwrite-custom
+    entrypoint: worker-deletes
+    depends_on:
+      - redis
+      - mariadb
+    volumes:
+      - appwrite-uploads:/storage/uploads:rw
+      - appwrite-cache:/storage/cache:rw
+      - appwrite-functions:/storage/functions:rw
+    environment:
+      - _APP_ENV
+      - _APP_OPENSSL_KEY_V1
+      - _APP_REDIS_HOST
+      - _APP_REDIS_PORT
+      - _APP_DB_HOST
+      - _APP_DB_PORT
+      - _APP_DB_SCHEMA
+      - _APP_DB_USER
+      - _APP_DB_PASS
+      - _APP_EXECUTOR_SECRET
+
+  mariadb:
+    image: mariadb:10.11
+    volumes:
+      - appwrite-mariadb:/var/lib/mysql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MARIADB_AUTO_UPGRADE=1
+    command: mysqld --innodb-flush-method=fsync
+
+  redis:
+    image: redis:7.2.4-alpine
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - appwrite-redis:/data:rw
+
+volumes:
+  appwrite-mariadb:
+  appwrite-redis:
+  appwrite-cache:
+  appwrite-uploads:
+  appwrite-config:
+  appwrite-certificates:
+  appwrite-functions:

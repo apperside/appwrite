@@ -137,7 +137,7 @@ services:
       - '_APP_FUNCTIONS_CREATION_ABUSE_LIMIT=${_APP_FUNCTIONS_CREATION_ABUSE_LIMIT}'
       - '_APP_CUSTOM_DOMAIN_DENY_LIST=${_APP_CUSTOM_DOMAIN_DENY_LIST}'
   appwrite-console:
-    image: 'docker.apperside.com/appwrite-custom:latest'
+    image: 'appwrite/console:6.1.28'
     container_name: appwrite-console
     environment:
       - SERVICE_URL_APPWRITE=/console
